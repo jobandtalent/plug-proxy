@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: plug-proxy
+  description: A plug for reverse proxy server.
+  tags:
+    - elixir
+  annotations:
+    github.com/project-slug: jobandtalent/plug-proxy
+spec:
+  type: library
+  owner: jobandtalent/job-seekers
+  lifecycle: production

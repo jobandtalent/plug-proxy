@@ -2,6 +2,8 @@ defmodule PlugProxy.Response do
   import Plug.Conn
   alias PlugProxy.{BadGatewayError, GatewayTimeoutError}
 
+  require Logger
+
   @type headers :: [{String.t(), String.t()}]
 
   @doc """

@@ -42,6 +42,8 @@ defmodule PlugProxy do
 
   @behaviour Plug
 
+  require Logger
+
   alias PlugProxy.BadGatewayError
 
   @methods ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
@@ -82,6 +84,7 @@ defmodule PlugProxy do
   defp send_req(conn, opts) do
     url_fun = Keyword.get(opts, :url, &format_url/2)
     url = get_url(url_fun, conn, opts)
+    Logger.info("Proxy call to: #{url}")
 
     :hackney.request(method_atom(conn.method), url, prepare_headers(conn), :stream, opts)
   end

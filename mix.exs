@@ -34,8 +34,8 @@ defmodule PlugProxy.Mixfile do
 
   defp deps do
     [
-      {:plug, "~> 1.13.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug, "~> 1.14.0"},
+      {:plug_cowboy, "~> 2.6"},
       {:hackney, "~> 1.10"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:excoveralls, "~> 0.7", only: :test, runtime: false},

@@ -1,5 +1,6 @@
 defmodule PlugProxyTest do
   use ExUnit.Case, async: true
+  use Plug.Test
 
   defp proxy_url(mod) do
     conf = Application.get_env(:plug_proxy, mod, [])
@@ -138,5 +139,28 @@ defmodule PlugProxyTest do
 
     assert status == 504
     assert body == "read"
+  end
+
+  test "runs after_send callbacks" do
+    conn =
+      conn(:get, "/")
+      |> put_private(:after_send, [
+        fn conn ->
+          put_resp_header(conn, "x-csrf-token", "testing-csrf")
+        end
+      ])
+      |> PlugProxy.call(upstream: URI.parse("http://localhost:4000"))
+
+    assert conn.status == 200
+    assert get_resp_header(conn, "x-csrf-token") == ["testing-csrf"]
+  end
+
+  test "ignores after_send callbacks if there aren't any" do
+    conn =
+      conn(:get, "/")
+      |> PlugProxy.call(upstream: URI.parse("http://localhost:4000"))
+
+    assert conn.status == 200
+    assert get_resp_header(conn, "x-csrf-token") == []
   end
 end
